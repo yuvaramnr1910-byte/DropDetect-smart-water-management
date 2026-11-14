@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DropDetect - Smart Water Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #e6f7ff;
+            margin: 0;
+            text-align: center;
+        }
+
+        header {
+            background: #0077b6;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 80%;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px #aaa;
+        }
+
+        input, textarea {
+            width: 90%;
+            padding: 12px;
+            margin: 10px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #0077b6;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #023e8a;
+        }
+
+        .report {
+            background: #caf0f8;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>💧 DropDetect</h1>
+    <p>Every Drop Matters!</p>
+</header>
+
+<div class="container">
+
+    <h2>Water Waste Reporting System</h2>
+
+    <input type="text" id="location"
+    placeholder="Enter Location">
+
+    <input type="number" id="waste"
+    placeholder="Water Waste (Litres)" min="0.1" step="any">
+
+    <textarea id="description"
+    placeholder="Describe the Water Problem"></textarea>
+
+    <button onclick="reportWaste()">Submit Report</button>
+
+    <h2>Water Waste Reports</h2>
+
+    <div id="reports"></div>
+
+    <h3 id="total">Total Water Waste: 0 Litres</h3>
+
+</div>
+
+<script>
+
+let totalWaste = 0;
+
+function reportWaste() {
+
+    let location = document.getElementById("location").value.trim();
+
+    let waste = Number(document.getElementById("waste").value);
+
+    let description = document.getElementById("description").value.trim();
+
+    if (location === "" || !Number.isFinite(waste) ||
+        waste <= 0 || description === "") {
+
+        alert("Please enter valid details!");
+        return;
+    }
+
+    let report = document.createElement("div");
+
+    report.className = "report";
+
+    let heading = document.createElement("h3");
+    heading.textContent = "📍 " + location;
+
+    let amount = document.createElement("p");
+    amount.textContent = "Water Waste: " + waste + " Litres";
+
+    let details = document.createElement("p");
+    details.textContent = description;
+
+    let status = document.createElement("p");
+    status.textContent = "Status: Pending";
+
+    report.append(heading, amount, details, status);
+
+    document.getElementById("reports").appendChild(report);
+
+    totalWaste += waste;
+
+    document.getElementById("total").innerText =
+        "Total Water Waste: " + totalWaste + " Litres";
+
+    document.getElementById("location").value = "";
+    document.getElementById("waste").value = "";
+    document.getElementById("description").value = "";
+
+}
+
+</script>
+
+</body>
+</html>
